@@ -73,6 +73,10 @@ const App = () => {
         ))}
       </div>
       <Pagination currentPage={page} totalPages={totalPages} onPageChange={handlePageChange} />
+      <div className='flex justify-center'>
+  <p>© 2024 Wellness Retreat | All Rights Reserved</p>
+</div>
+
     </div>
   );
 };
