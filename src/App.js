@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import Header from './components/Header';
 import Retreat from './components/Retreat';
 import Filter from './components/Filter';
@@ -12,17 +12,17 @@ const App = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  useEffect(() => {
-    fetchRetreats();
-  }, [page]);
-
-  const fetchRetreats = async () => {
+  const fetchRetreats = useCallback(async () => {
     const response = await fetch(`https://669f704cb132e2c136fdd9a0.mockapi.io/api/v1/retreats?page=${page}&limit=3`);
     const data = await response.json();
     setRetreats(data);
     setFilteredRetreats(data);
     setTotalPages(5); 
-  };
+  }, [page]);
+
+  useEffect(() => {
+    fetchRetreats();
+  }, [fetchRetreats]);
 
   const handleFilterChange = ({ dateRange, type }) => {
     let filtered = retreats;
@@ -74,9 +74,8 @@ const App = () => {
       </div>
       <Pagination currentPage={page} totalPages={totalPages} onPageChange={handlePageChange} />
       <div className='flex justify-center'>
-  <p>© 2024 Wellness Retreat | All Rights Reserved</p>
-</div>
-
+        <p>© 2024 Wellness Retreat | All Rights Reserved</p>
+      </div>
     </div>
   );
 };
